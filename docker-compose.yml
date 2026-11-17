@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tasty_food_app
+    restart: unless-stopped
+    working_dir: /var/www
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www
+    networks:
+      - tasty_food_network
+
+  db:
+    image: mysql:8.0
+    container_name: tasty_food_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tasty_food
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: tastyuser
+      MYSQL_PASSWORD: tastypassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - tasty_food_network
+
+  # Service phpMyAdmin (Manajemen Database via Browser)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: tasty_food_pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - tasty_food_network
+
+networks:
+  tasty_food_network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
