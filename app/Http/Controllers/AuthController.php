@@ -28,7 +28,7 @@ class AuthController extends Controller
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif ($user->role === 'user') {
-                return redirect()->route('homes.index');
+                return redirect()->route('user.home');
             }else {
                 Auth::logout();
                 return redirect()->route('login')->withErrord('email', 'Email atau password salah.');
