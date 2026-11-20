@@ -6,8 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <button type="submit">Login</button>
+    <form action="{{ route('login') }}" method="POST">
+        @csrf
+        <input type="text" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Login</button>
+    </form>
 </body>
 </html>

@@ -9,9 +9,15 @@ class News extends Model
     protected $table = 'news';
 
     protected $fillable = [
+        'user_id',
         'judul',
         'deskripsi',
         'gambar',
         'slug'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

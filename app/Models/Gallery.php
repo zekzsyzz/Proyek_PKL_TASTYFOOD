@@ -9,7 +9,12 @@ class Gallery extends Model
     protected $table = 'galleries';
 
     protected $fillable = [
-        'judul',
-        'gambar'
+        'user_id',
+        'gambar',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

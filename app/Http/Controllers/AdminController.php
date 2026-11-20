@@ -26,66 +26,71 @@ class AdminController extends Controller
 
     public function storenews(Request $request)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'slug' => 'nullable|string|max:255|unique:news,slug',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'slug'      => 'nullable|string|max:255|unique:news,slug',
         ]);
 
-        $news = $request->all();
 
         if ($request->hasFile('gambar')) {
-            $imagePath = $request->file('gambar')->store('news_images', 'public');
-            $news['gambar'] = $imagePath;
+            $data['gambar'] = $request->file('gambar')->store('news_images', 'public');
         }
-        
-        News::create($news);
-    
-        return redirect()->route('admin.news.index')->with('success', 'Berita Telah di tambahkan.');
+
+        $data['user_id'] = Auth::id();
+
+        News::create($data);
+
+        return redirect()->route('admin.news.index')->with('success', 'Berita telah ditambahkan.');
     }
-    
+
     public function editnews($id)
     {
         $news = News::findOrFail($id);
-        return view('admin.news.edit' , compact('news'));
+
+        return view('admin.news.edit', compact('news'));
     }
-    
+
     public function updatenews(Request $request, $id)
     {
         $news = News::findOrFail($id);
-    
-        $request->validate([
-            'judul' => 'required|string|max:255',
+
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'slug' => 'nullable|string|max:255|unique:news,slug',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'slug'      => 'nullable|string|max:255|unique:news,slug,' . $news->id,
         ]);
-    
-        $data = $request->all();
-        
-        if($request->hasFile('gambar')) {
-            $imagePath = $request->file('gambar')->store('news_images', 'public');
-            $data['gambar'] = $imagePath;
+
+        $data['slug'] = $this->uniqueSlug($data['slug'] ?? $data['judul'], $news->id);
+
+        if ($request->hasFile('gambar')) {
+            if ($news->gambar) {
+                Storage::disk('public')->delete($news->gambar);
+            }
+            $data['gambar'] = $request->file('gambar')->store('news_images', 'public');
         }
-        
+
         $news->update($data);
-    
-        return redirect()->route('admin.news.index')->with('success', 'Berita Telah di perbarui.');
+
+        return redirect()->route('admin.news.index')->with('success', 'Berita telah diperbarui.');
     }
 
     public function deletenews($id)
     {
         $news = News::findOrFail($id);
+
         if ($news->gambar) {
-            \Storage::disk('public')->delete($news->gambar);
+            Storage::disk('public')->delete($news->gambar);
         }
 
         $news->delete();
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita Telah di hapus.');
+        return redirect()->route('admin.news.index')->with('success', 'Berita telah dihapus.');
     }
 
+    /* ===================== GALERI ===================== */
 
     public function indexgallery()
     {
@@ -101,61 +106,57 @@ class AdminController extends Controller
 
     public function storegallery(Request $request)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        $data = $request->validate([
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $gallery = $request->all();
+        $data['user_id'] = Auth::id();
 
-        if ($request->hasFile('gambar')) {
-            $imagePath = $request->file('gambar')->store('gallery_images', 'public');
-            $gallery['gambar'] = $imagePath;
-        }
-        
-        Gallery::create($gallery);
-    
-        return redirect()->route('admin.gallery.index')->with('success', 'Galeri Telah di tambahkan.');
+        $data['gambar'] = $request->file('gambar')->store('gallery_images', 'public');
+
+        Gallery::create($data);
+
+        return redirect()->route('admin.gallery.index')->with('success', 'Galeri telah ditambahkan.');
     }
-    
-    public function editgallery($id)
-    {
-        $gallery = Gallery::findOrFail($id);
-        return view('admin.gallery.edit' , compact('gallery'));
-    }
-    
-    public function updategallery(Request $request, $id)
-    {
-        $gallery = Gallery::findOrFail($id);
-    
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        ]);
-    
-        $data = $request->all();
-        
-        if($request->hasFile('gambar')) {
-            $imagePath = $request->file('gambar')->store('gallery_images', 'public');
-            $data['gambar'] = $imagePath;
-        }
-        
-        $gallery->update($data);
-    
-        return redirect()->route('admin.gallery.index')->with('success', 'Galeri Telah di perbarui.');
-    }
+
 
     public function deletegallery($id)
     {
         $gallery = Gallery::findOrFail($id);
+
         if ($gallery->gambar) {
-            \Storage::disk('public')->delete($gallery->gambar);
+            Storage::disk('public')->delete($gallery->gambar);
         }
 
         $gallery->delete();
 
-        return redirect()->route('admin.gallery.index')->with('success', 'Galeri Telah di hapus.');
+        return redirect()->route('admin.gallery.index')->with('success', 'Galeri telah dihapus.');
     }
 
-    
+    /* ===================== KONTAK (PESAN MASUK) ===================== */
+
+    public function indexcontact()
+    {
+        $contacts = Contact::latest()->paginate(10);
+
+        return view('admin.contact.index', compact('contacts'));
+    }
+
+    public function showcontact($id)
+    {
+        $contact = Contact::findOrFail($id);
+
+        if (! $contact->dibaca) {
+            $contact->update(['dibaca' => true]);
+        }
+
+        return view('admin.contact.show', compact('contact'));
+    }
+
+    public function deletecontact($id)
+    {
+        Contact::findOrFail($id)->delete();
+
+        return redirect()->route('admin.contact.index')->with('success', 'Pesan telah dihapus.');
+    }
 }

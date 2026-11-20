@@ -34,9 +34,17 @@
             </nav>
         </div>
         <div class="p-4 border-t border-gray-800">
-            <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition">
+            {{-- <a href="{{ route('user.home') }}" target="_blank" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i> Lihat Website User
-            </a>
+            </a> --}}
+        </div>
+        <div>
+            <form action="{{ route('logout') }}" method="POST" class="p-4 border-t border-gray-800">
+                @csrf
+                <button type="submit" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 transition text-white font-semibold">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </form>
         </div>
     </aside>
 

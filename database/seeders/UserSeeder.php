@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             ]
         ];
 
-        foreach ($users as &$user) {
+        foreach ($users as $user) {
             User::create($user);
         }
     }

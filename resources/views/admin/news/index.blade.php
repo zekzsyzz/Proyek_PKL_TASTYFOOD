@@ -37,7 +37,7 @@
                         <td class="py-4 px-6">
                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="News" class="w-16 h-12 object-cover rounded-lg shadow-sm">
                         </td>
-                        <td class="py-4 px-6 font-semibold text-gray-900">{{ Str::limit($item->title, 40) }}</td>
+                        <td class="py-4 px-6 font-semibold text-gray-900">{{ Str::limit($item->judul, 40) }}</td>
                         <td class="py-4 px-6 text-gray-500">{{ $item->created_at->format('d M Y') }}</td>
                         <td class="py-4 px-6 text-center space-x-2">
                             <a href="{{ route('admin.news.edit', $item->id) }}" class="inline-flex items-center justify-center w-8 h-8 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition" title="Edit">

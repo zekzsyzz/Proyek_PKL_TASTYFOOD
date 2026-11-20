@@ -19,6 +19,11 @@ class UserController extends Controller
         return view('user.home', compact('news', 'gallery'));
     }
 
+    public function about()
+    {
+        return view('user.about');
+    }
+
     public function news()
     {
         $news = News::latest()->paginate(8);

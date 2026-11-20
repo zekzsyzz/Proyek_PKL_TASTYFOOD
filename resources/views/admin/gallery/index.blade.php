@@ -19,13 +19,12 @@
 
     <!-- Grid Foto Galeri -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        @forelse($galleries as $gallery)
+        @forelse($gallery as $gallery)
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
             <div class="relative h-48 overflow-hidden bg-gray-100">
                 <img src="{{ asset('storage/' . $gallery->image) }}" alt="Gallery" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
             </div>
             <div class="p-4 flex justify-between items-center bg-white">
-                <span class="text-xs text-gray-500 truncate max-w-[120px]">{{ $gallery->title ?? 'Foto Kuliner' }}</span>
                 <form action="{{ route('admin.gallery.destroy', $gallery->id) }}" method="POST" onsubmit="return confirm('Hapus foto ini?')">
                     @csrf
                     @method('DELETE')
