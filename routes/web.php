@@ -40,6 +40,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/news', [UserController::class, 'news'])->name('news');
     Route::get('/gallery', [UserController::class, 'gallery'])->name('gallery');
     Route::get('/contact', [UserController::class, 'contact'])->name('contact');
+    Route::post('/contact', [UserController::class, 'storecontact'])->name('contact.store');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

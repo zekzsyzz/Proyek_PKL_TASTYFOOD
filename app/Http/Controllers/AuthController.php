@@ -28,7 +28,7 @@ class AuthController extends Controller
             if ($user->role === 'admin') {
                 return redirect()->route('admin.news.index');
             } elseif ($user->role === 'user') {
-                return redirect()->route('user.home');
+                return redirect()->route('home');
             }else {
                 Auth::logout();
                 return redirect()->route('login')->withErrord('email', 'Email atau password salah.');
@@ -40,7 +40,7 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'email' => 'Email atau password salah.'
-        ])->onlyimput('email');
+        ])->onlyinput('email');
     }
 
     public function logout(Request $request)

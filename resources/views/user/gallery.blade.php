@@ -4,10 +4,7 @@
 @section('header_class', 'absolute inset-x-0 top-0 bg-transparent text-white')
 
 @section('content')
-@php
-    $gallery = $gallery ?? collect();                       // grid (paginate)
-    $slides  = $slides ?? $gallery->take(5);               // slider (maks. 5 terbaru)
-@endphp
+
 
 <x-page-hero title="Galeri Kami" />
 

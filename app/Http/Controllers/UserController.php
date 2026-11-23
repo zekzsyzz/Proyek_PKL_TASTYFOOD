@@ -16,12 +16,32 @@ class UserController extends Controller
         $news = News::latest()->take(3)->get();
         $gallery = Gallery::latest()->take(6)->get();
 
-        return view('user.home', compact('news', 'gallery'));
+        $heroImage = asset('asset/img-4.png');          // piring (PNG transparan)
+        $featureBg = asset('asset/Group 70@2x.png');   // background gelap section menu
+
+        $features = [
+            ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-1.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
+            ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-2.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
+            ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-3.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
+            ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-4.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
+        ];
+
+        
+        $newsUrl = fn ($item) => Route::has('news.show')
+            ? route('news.show', $item->slug ?? $item->id)
+            : route('news');
+
+        $mainNews = $news->first();
+        $sideNews = $news->slice(1, 4);
+
+        return view('user.home', compact('news', 'gallery', 'heroImage', 'featureBg', 'features', 'newsUrl', 'mainNews', 'sideNews'));
     }
 
     public function about()
     {
-        return view('user.about');
+        $img = fn ($n) => asset("images/about-{$n}.jpg");  
+        
+        return view('user.about', compact('img'));
     }
 
     public function news()
@@ -35,11 +55,28 @@ class UserController extends Controller
     {
         $gallery = Gallery::latest()->paginate(12);
 
-        return view('user.gallery', compact('gallery'));
+        $gallery = $gallery ?? collect();                       
+        $slides  = $slides ?? $gallery->take(5);
+
+        return view('user.gallery', compact('gallery', 'slides'));
     }
 
     public function contact()
     {
         return view('user.contact');
+    }
+
+    public function storeContact(Request $request)
+    {
+        $data = $request->validate([
+            'subject'   => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email|max:255',
+            'pesan'     => 'required|string',
+        ]);
+
+        Contact::create($data);
+
+        return redirect()->route('contact')->with('success', 'Pesan Anda telah dikirim.');
     }
 }

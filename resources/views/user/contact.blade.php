@@ -35,19 +35,19 @@
             </div>
 
             <div class="grid gap-4 lg:grid-cols-2">
-                {{-- Kolom kiri: subjek, nama, email --}}
+                {{-- Kolom kiri: subject, nama, email --}}
                 <div class="space-y-4">
                     <div>
-                        <label for="subjek" class="sr-only">Subjek</label>
-                        <input type="text" id="subjek" name="subjek" value="{{ old('subjek') }}" placeholder="Subjek (opsional)"
-                               class="{{ $field }} {{ $errors->has('subjek') ? 'border-red-500' : 'border-neutral-400' }}">
-                        @error('subjek') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
+                        <label for="subject" class="sr-only">subject</label>
+                        <input type="text" id="subject" name="subject" value="{{ old('subject') }}" placeholder="subject" required
+                               class="{{ $field }} {{ $errors->has('subject') ? 'border-red-500' : 'border-neutral-400' }}">
+                        @error('subject') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label for="nama" class="sr-only">Nama</label>
-                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Nama" required
-                               class="{{ $field }} {{ $errors->has('nama') ? 'border-red-500' : 'border-neutral-400' }}">
-                        @error('nama') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
+                        <label for="name" class="sr-only">Nama</label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Nama" required
+                               class="{{ $field }} {{ $errors->has('name') ? 'border-red-500' : 'border-neutral-400' }}">
+                        @error('name') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label for="email" class="sr-only">Email</label>

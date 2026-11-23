@@ -6,28 +6,7 @@
 @section('header_class', 'absolute inset-x-0 top-0 bg-transparent')
 
 @section('content')
-@php
-    $news    = $news ?? collect();
-    $gallery = $gallery ?? collect();
 
-    $heroImage = asset('asset/img-4.png');          // piring (PNG transparan)
-    $featureBg = asset('asset/Group 70@2x.png');   // background gelap section menu
-
-    $features = [
-        ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-1.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
-        ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-2.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
-        ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-3.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
-        ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-4.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
-    ];
-
-    // Link detail berita: pakai route 'news.show' jika ada, jika tidak ke daftar berita
-    $newsUrl = fn ($item) => Route::has('news.show')
-        ? route('news.show', $item->slug ?? $item->id)
-        : route('news');
-
-    $mainNews = $news->first();
-    $sideNews = $news->slice(1, 4);
-@endphp
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-[#f4f4f4]">
