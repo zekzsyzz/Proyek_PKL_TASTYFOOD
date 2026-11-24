@@ -5,15 +5,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+    
+    Route::get('/', [UserController::class, 'home'])->name('home');
+    Route::get('/about', [UserController::class, 'about'])->name('about');
+    Route::get('/news', [UserController::class, 'news'])->name('news');
+    Route::get('/gallery', [UserController::class, 'gallery'])->name('gallery');
+    Route::get('/contact', [UserController::class, 'contact'])->name('contact');
+    Route::post('/contact', [UserController::class, 'storecontact'])->name('contact.store');
+    
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
-});
+    });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/news', [AdminController::class, 'indexnews'])->name('news.index');
@@ -32,15 +35,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/contacts/{id}', [AdminController::class, 'showcontact'])->name('contacts.show');
     Route::delete('/contacts/{id}', [AdminController::class, 'deletecontact'])->name('contacts.destroy');
 
-
+    Route::get('/about', [AdminController::class, 'indexabout'])->name('about.index');
+    Route::get('/about/create', [AdminController::class, 'createabout'])->name('about.create');
+    Route::post('/about', [AdminController::class, 'storeabout'])->name('about.store');
+    Route::get('/about/{id}/edit', [AdminController::class, 'editabout'])->name('about.edit');
+    Route::put('/about/{id}', [AdminController::class, 'updateabout'])->name('about.update');
 });
-
-    Route::get('/home', [UserController::class, 'home'])->name('home');
-    Route::get('/about', [UserController::class, 'about'])->name('about');
-    Route::get('/news', [UserController::class, 'news'])->name('news');
-    Route::get('/gallery', [UserController::class, 'gallery'])->name('gallery');
-    Route::get('/contact', [UserController::class, 'contact'])->name('contact');
-    Route::post('/contact', [UserController::class, 'storecontact'])->name('contact.store');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

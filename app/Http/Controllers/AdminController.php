@@ -10,9 +10,11 @@ use App\Models\User;
 use App\Models\News;
 use App\Models\Gallery;
 use App\Models\Contact;
+use App\Models\About;
 
 class AdminController extends Controller
 {
+    /* ===================== NEWS ===================== */
     public function indexnews()
     {
         $news = News::latest()->paginate(10);
@@ -89,6 +91,69 @@ class AdminController extends Controller
         $news->delete();
 
         return redirect()->route('admin.news.index')->with('success', 'Berita telah dihapus.');
+    }
+
+    /* ===================== ABOUT ===================== */
+
+    public function indexabout()
+    {
+        $about = About::first();
+
+        return view('admin.about.index', compact('about'));
+    }
+
+    public function createabout()
+    {
+        return view('admin.about.create');
+    }
+
+    public function storeabout(Request $request)
+    {
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'visi'      => 'required|string',
+            'misi'      => 'required|string',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('about_images', 'public');
+        }
+
+        $data['user_id'] = Auth::id();
+
+        About::create($data);
+
+        return redirect()->route('admin.about.index')->with('success', 'Tentang telah ditambahkan.');
+    }
+
+    public function editabout($id)
+    {
+        $about = About::findOrFail($id);
+
+        return view('admin.about.edit', compact('about'));
+    }
+
+    public function updateabout(Request $request, $id)
+    {
+        $about = About::findOrFail($id);
+
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'visi'      => 'required|string',
+            'misi'      => 'required|string',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('about_images', 'public');
+        }
+
+        $about->update($data);
+
+        return redirect()->route('admin.about.index')->with('success', 'Tentang telah diperbarui.');
     }
 
     /* ===================== GALERI ===================== */

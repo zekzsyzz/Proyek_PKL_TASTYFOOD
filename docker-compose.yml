@@ -12,6 +12,8 @@ services:
       - "8000:8000"
     volumes:
       - ./:/var/www
+    depends_on:
+      - db
     networks:
       - tasty_food_network
 
@@ -31,7 +33,7 @@ services:
     networks:
       - tasty_food_network
 
-  # Service phpMyAdmin (Manajemen Database via Browser)
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: tasty_food_pma
