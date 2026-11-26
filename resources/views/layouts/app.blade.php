@@ -67,7 +67,7 @@
                     @auth
                         @if (auth()->user()->role === 'admin')
                             <li>
-                                <a href="{{ route('admin.index') }}" class="transition hover:text-amber-500">Dashboard Admin</a>
+                                <a href="{{ route('admin.news.index') }}" class="transition hover:text-amber-500">Dashboard Admin</a>
                             </li>
                         @endif
                         <li>
@@ -111,7 +111,7 @@
 
                 @auth
                     @if (auth()->user()->role === 'admin')
-                        <li><a href="{{ route('admin.index') }}">Dashboard Admin</a></li>
+                        <li><a href="{{ route('admin.news.index') }}">Dashboard Admin</a></li>
                     @endif
                     <li>
                         <form method="POST" action="{{ route('logout') }}">

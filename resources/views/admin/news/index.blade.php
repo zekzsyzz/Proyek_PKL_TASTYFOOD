@@ -11,7 +11,7 @@
                 <h1 class="text-2xl md:text-3xl font-bold tracking-wide">MANAJEMEN BERITA KAMI</h1>
                 <p class="text-gray-400 text-sm mt-1">Tambah, ubah, atau hapus artikel berita yang tampil di halaman user.</p>
             </div>
-            <a href="{{ route('admin.news.create') }}" class="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-5 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+            <a href="{{ route('admin.news.create') }}" class="bg-white hover:bg-white text-black font-semibold px-5 py-2.5 rounded-xl shadow transition flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i> Tambah Berita Baru
             </a>
         </div>

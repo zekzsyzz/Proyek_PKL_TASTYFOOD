@@ -103,7 +103,7 @@
 
 <script>
     (function () {
-        const MAX_SIZE = 2 * 1024 * 1024; // 2 MB, sama dengan validasi server
+        const MAX_SIZE = 5 * 1024 * 1024; // 2 MB, sama dengan validasi server
         const TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
         const input    = document.getElementById('gambar');

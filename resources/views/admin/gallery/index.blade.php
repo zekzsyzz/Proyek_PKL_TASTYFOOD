@@ -11,7 +11,7 @@
                 <h1 class="text-2xl md:text-3xl font-bold tracking-wide">MANAJEMEN GALERI KAMI</h1>
                 <p class="text-gray-400 text-sm mt-1">Kelola foto-foto makanan yang tampil di halaman galeri user.</p>
             </div>
-            <a href="{{ route('admin.gallery.create') }}" class="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-5 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+            <a href="{{ route('admin.gallery.create') }}" class="bg-white hover:bg-white text-black font-semibold px-5 py-2.5 rounded-xl shadow transition flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i> Tambah Foto Galeri
             </a>
         </div>
@@ -22,7 +22,7 @@
         @forelse($gallery as $gallery)
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
             <div class="relative h-48 overflow-hidden bg-gray-100">
-                <img src="{{ asset('storage/' . $gallery->image) }}" alt="Gallery" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <img src="{{ asset('storage/' . $gallery->gambar) }}" alt="Gallery" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
             </div>
             <div class="p-4 flex justify-between items-center bg-white">
                 <form action="{{ route('admin.gallery.destroy', $gallery->id) }}" method="POST" onsubmit="return confirm('Hapus foto ini?')">

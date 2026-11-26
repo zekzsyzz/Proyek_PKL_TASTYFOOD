@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\News;
 use App\Models\Gallery;
 use App\Models\Contact;
+use App\Models\About;
 
 class UserController extends Controller
 {
@@ -16,8 +18,8 @@ class UserController extends Controller
         $news = News::latest()->take(3)->get();
         $gallery = Gallery::latest()->take(6)->get();
 
-        $heroImage = asset('asset/img-4.png');          // piring (PNG transparan)
-        $featureBg = asset('asset/Group 70@2x.png');   // background gelap section menu
+        $heroImage = asset('asset/img-4.png');          
+        $featureBg = asset('asset/Group 70@2x.png');   
 
         $features = [
             ['judul' => 'Lorem Ipsum', 'gambar' => asset('asset/img-1.png'), 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare, augue eu rutrum commodo,'],
@@ -39,14 +41,19 @@ class UserController extends Controller
 
     public function about()
     {
-        $img = fn ($n) => asset("images/about-{$n}.jpg");  
+        $img = fn ($n) => asset("images/about-{$n}.jpg"); 
+        $about = About::latest()->first();
         
-        return view('user.about', compact('img'));
+        return view('user.about', compact('img', 'about'));
     }
 
     public function news()
     {
-        $news = News::latest()->paginate(8);
+        $news = News::latest()->paginate(8); 
+
+    $newsUrl = fn ($item) => Route::has('news.show')
+        ? route('news.show', $item->slug ?? $item->id)
+        : '#';
 
         return view('user.news', compact('news'));
     }

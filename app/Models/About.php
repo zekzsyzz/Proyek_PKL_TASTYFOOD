@@ -15,5 +15,5 @@ class About extends Model
         'gambar',
         'visi',
         'misi',
-    ]
+    ];
 }

@@ -32,7 +32,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'judul'     => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'slug'      => 'nullable|string|max:255|unique:news,slug',
         ]);
 
@@ -62,7 +62,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'judul'     => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'slug'      => 'nullable|string|max:255|unique:news,slug,' . $news->id,
         ]);
 
@@ -97,9 +97,9 @@ class AdminController extends Controller
 
     public function indexabout()
     {
-        $about = About::first();
+        $abouts = About::get();
 
-        return view('admin.about.index', compact('about'));
+        return view('admin.about.index', compact('abouts'));
     }
 
     public function createabout()
@@ -112,7 +112,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'judul'     => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'visi'      => 'required|string',
             'misi'      => 'required|string',
         ]);
@@ -142,7 +142,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'judul'     => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'visi'      => 'required|string',
             'misi'      => 'required|string',
         ]);
